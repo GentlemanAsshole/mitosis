@@ -20,7 +20,7 @@ const nrf_drv_rtc_t rtc_deb = NRF_DRV_RTC_INSTANCE(1); /**< Declaring an instanc
 
 
 // Define payload length
-#define TX_PAYLOAD_LENGTH 3 ///< 3 byte payload length when transmitting
+#define TX_PAYLOAD_LENGTH 4 ///< 4 byte payload length when transmitting
 
 // Data and acknowledgement payloads
 static uint8_t data_payload[TX_PAYLOAD_LENGTH];                ///< Payload to send to Host. 
@@ -64,6 +64,12 @@ static void gpio_config(void)
     nrf_gpio_cfg_sense_input(S21, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
     nrf_gpio_cfg_sense_input(S22, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
     nrf_gpio_cfg_sense_input(S23, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(S24, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(S25, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(S26, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(S27, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(S28, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
+    nrf_gpio_cfg_sense_input(S29, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
 }
 
 // Return the key states, masked with valid key pins
@@ -100,7 +106,16 @@ static void send_data(void)
                       ((keys & 1<<S21) ? 1:0) << 3 | \
                       ((keys & 1<<S22) ? 1:0) << 2 | \
                       ((keys & 1<<S23) ? 1:0) << 1 | \
-                      0 << 0;
+                      ((keys & 1<<S24) ? 1:0) << 0;
+
+    data_payload[3] = ((keys & 1<<S25) ? 1:0) << 7 | \
+    		      ((keys & 1<<S26) ? 1:0) << 6 | \
+		      ((keys & 1<<S27) ? 1:0) << 5 | \
+                      ((keys & 1<<S28) ? 1:0) << 4 | \
+		      ((keys & 1<<S29) ? 1:0) << 3 | \
+			                    0 << 2 | \
+					    0 << 1 | \
+					    0 << 0;
 
     nrf_gzll_add_packet_to_tx_fifo(PIPE_NUMBER, data_payload, TX_PAYLOAD_LENGTH);
 }
