@@ -22,7 +22,7 @@
 
 
 // Define payload length
-#define TX_PAYLOAD_LENGTH 3 ///< 3 byte payload length
+#define TX_PAYLOAD_LENGTH 4 ///< 4 byte payload length
 
 // ticks for inactive keyboard
 #define INACTIVE 100000
@@ -110,33 +110,39 @@ int main(void)
         {
             packet_received_left = false;
 
-            data_buffer[0] = ((data_payload_left[0] & 1<<3) ? 1:0) << 0 |
-                             ((data_payload_left[0] & 1<<4) ? 1:0) << 1 |
+            data_buffer[0] = ((data_payload_left[0] & 1<<7) ? 1:0) << 0 |
+                             ((data_payload_left[0] & 1<<6) ? 1:0) << 1 |
                              ((data_payload_left[0] & 1<<5) ? 1:0) << 2 |
-                             ((data_payload_left[0] & 1<<6) ? 1:0) << 3 |
-                             ((data_payload_left[0] & 1<<7) ? 1:0) << 4;
+                             ((data_payload_left[0] & 1<<4) ? 1:0) << 3 |
+                             ((data_payload_left[0] & 1<<3) ? 1:0) << 4 |
+                             ((data_payload_left[0] & 1<<2) ? 1:0) << 5;
 
-            data_buffer[2] = ((data_payload_left[1] & 1<<6) ? 1:0) << 0 |
-                             ((data_payload_left[1] & 1<<7) ? 1:0) << 1 |
-                             ((data_payload_left[0] & 1<<0) ? 1:0) << 2 |
-                             ((data_payload_left[0] & 1<<1) ? 1:0) << 3 |
-                             ((data_payload_left[0] & 1<<2) ? 1:0) << 4;
-
-            data_buffer[4] = ((data_payload_left[1] & 1<<1) ? 1:0) << 0 |
+            data_buffer[2] = ((data_payload_left[0] & 1<<1) ? 1:0) << 0 |
+                             ((data_payload_left[0] & 1<<0) ? 1:0) << 1 |
+                             ((data_payload_left[1] & 1<<7) ? 1:0) << 2 |
+                             ((data_payload_left[1] & 1<<6) ? 1:0) << 3 |
+                             ((data_payload_left[1] & 1<<5) ? 1:0) << 4 |
+                             ((data_payload_left[1] & 1<<4) ? 1:0) << 5;
+                             
+            data_buffer[4] = ((data_payload_left[1] & 1<<3) ? 1:0) << 0 |
                              ((data_payload_left[1] & 1<<2) ? 1:0) << 1 |
-                             ((data_payload_left[1] & 1<<3) ? 1:0) << 2 |
-                             ((data_payload_left[1] & 1<<4) ? 1:0) << 3 |
-                             ((data_payload_left[1] & 1<<5) ? 1:0) << 4;
+                             ((data_payload_left[1] & 1<<1) ? 1:0) << 2 |
+                             ((data_payload_left[1] & 1<<0) ? 1:0) << 3 |
+                             ((data_payload_left[2] & 1<<7) ? 1:0) << 4 |
+                             ((data_payload_left[2] & 1<<6) ? 1:0) << 5;
 
-            data_buffer[6] = ((data_payload_left[2] & 1<<5) ? 1:0) << 1 |
-                             ((data_payload_left[2] & 1<<6) ? 1:0) << 2 |
-                             ((data_payload_left[2] & 1<<7) ? 1:0) << 3 |
-                             ((data_payload_left[1] & 1<<0) ? 1:0) << 4;
+            data_buffer[6] = ((data_payload_left[2] & 1<<5) ? 1:0) << 0 |
+                             ((data_payload_left[2] & 1<<4) ? 1:0) << 1 |
+                             ((data_payload_left[2] & 1<<3) ? 1:0) << 2 |
+                             ((data_payload_left[2] & 1<<2) ? 1:0) << 3 |
+                             ((data_payload_left[2] & 1<<1) ? 1:0) << 4 |
+                             ((data_payload_left[2] & 1<<0) ? 1:0) << 5;
 
-            data_buffer[8] = ((data_payload_left[2] & 1<<1) ? 1:0) << 1 |
-                             ((data_payload_left[2] & 1<<2) ? 1:0) << 2 |
-                             ((data_payload_left[2] & 1<<3) ? 1:0) << 3 |
-                             ((data_payload_left[2] & 1<<4) ? 1:0) << 4;
+            data_buffer[8] = ((data_payload_left[3] & 1<<7) ? 1:0) << 0 |
+                             ((data_payload_left[3] & 1<<6) ? 1:0) << 1 |
+                             ((data_payload_left[3] & 1<<5) ? 1:0) << 2 |
+                             ((data_payload_left[3] & 1<<4) ? 1:0) << 3 |
+                             ((data_payload_left[3] & 1<<3) ? 1:0) << 4;
         }
 
         if (packet_received_right)
@@ -147,29 +153,35 @@ int main(void)
                              ((data_payload_right[0] & 1<<6) ? 1:0) << 1 |
                              ((data_payload_right[0] & 1<<5) ? 1:0) << 2 |
                              ((data_payload_right[0] & 1<<4) ? 1:0) << 3 |
-                             ((data_payload_right[0] & 1<<3) ? 1:0) << 4;
+                             ((data_payload_right[0] & 1<<3) ? 1:0) << 4 |
+                             ((data_payload_right[0] & 1<<2) ? 1:0) << 5;
 
-            data_buffer[3] = ((data_payload_right[0] & 1<<2) ? 1:0) << 0 |
-                             ((data_payload_right[0] & 1<<1) ? 1:0) << 1 |
-                             ((data_payload_right[0] & 1<<0) ? 1:0) << 2 |
-                             ((data_payload_right[1] & 1<<7) ? 1:0) << 3 |
-                             ((data_payload_right[1] & 1<<6) ? 1:0) << 4;
+            data_buffer[3] = ((data_payload_right[0] & 1<<1) ? 1:0) << 0 |
+                             ((data_payload_right[0] & 1<<0) ? 1:0) << 1 |
+                             ((data_payload_right[1] & 1<<7) ? 1:0) << 2 |
+                             ((data_payload_right[1] & 1<<6) ? 1:0) << 3 |
+                             ((data_payload_right[1] & 1<<5) ? 1:0) << 4 |
+                             ((data_payload_right[1] & 1<<4) ? 1:0) << 5;
 
-            data_buffer[5] = ((data_payload_right[1] & 1<<5) ? 1:0) << 0 |
-                             ((data_payload_right[1] & 1<<4) ? 1:0) << 1 |
-                             ((data_payload_right[1] & 1<<3) ? 1:0) << 2 |
-                             ((data_payload_right[1] & 1<<2) ? 1:0) << 3 |
-                             ((data_payload_right[1] & 1<<1) ? 1:0) << 4;
+            data_buffer[5] = ((data_payload_right[1] & 1<<3) ? 1:0) << 0 |
+                             ((data_payload_right[1] & 1<<2) ? 1:0) << 1 |
+                             ((data_payload_right[1] & 1<<1) ? 1:0) << 2 |
+                             ((data_payload_right[1] & 1<<0) ? 1:0) << 3 |
+                             ((data_payload_right[2] & 1<<7) ? 1:0) << 4 |
+                             ((data_payload_right[2] & 1<<6) ? 1:0) << 5;
 
-            data_buffer[7] = ((data_payload_right[1] & 1<<0) ? 1:0) << 0 |
-                             ((data_payload_right[2] & 1<<7) ? 1:0) << 1 |
-                             ((data_payload_right[2] & 1<<6) ? 1:0) << 2 |
-                             ((data_payload_right[2] & 1<<5) ? 1:0) << 3;
+            data_buffer[7] = ((data_payload_right[2] & 1<<5) ? 1:0) << 0 |
+                             ((data_payload_right[2] & 1<<4) ? 1:0) << 1 |
+                             ((data_payload_right[2] & 1<<3) ? 1:0) << 2 |
+                             ((data_payload_right[2] & 1<<2) ? 1:0) << 3 |
+                             ((data_payload_right[2] & 1<<1) ? 1:0) << 4 |
+                             ((data_payload_right[2] & 1<<0) ? 1:0) << 5;
 
-            data_buffer[9] = ((data_payload_right[2] & 1<<4) ? 1:0) << 0 |
-                             ((data_payload_right[2] & 1<<3) ? 1:0) << 1 |
-                             ((data_payload_right[2] & 1<<2) ? 1:0) << 2 |
-                             ((data_payload_right[2] & 1<<1) ? 1:0) << 3;
+            data_buffer[9] = ((data_payload_right[3] & 1<<7) ? 1:0) << 1 |
+                             ((data_payload_right[3] & 1<<6) ? 1:0) << 2 |
+                             ((data_payload_right[3] & 1<<5) ? 1:0) << 3 |
+                             ((data_payload_right[3] & 1<<4) ? 1:0) << 4 |
+                             ((data_payload_right[3] & 1<<3) ? 1:0) << 5;
         }
 
         // checking for a poll request from QMK
@@ -180,7 +192,7 @@ int main(void)
             app_uart_put(0xE0);
 
             // debugging help, for printing keystates to a serial console
-            /*
+            
             for (uint8_t i = 0; i < 10; i++)
             {
                 app_uart_put(data_buffer[i]);
@@ -206,7 +218,7 @@ int main(void)
                    BYTE_TO_BINARY(data_buffer[8]), \
                    BYTE_TO_BINARY(data_buffer[9]));   
             nrf_delay_us(100);
-            */
+            
         }
         // allowing UART buffers to clear
         nrf_delay_us(10);
